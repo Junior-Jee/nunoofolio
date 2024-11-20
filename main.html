@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Educator Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --text: #1f2937;
+            --bg: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .welcome-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+        }
+
+        .welcome-card input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 1rem 0;
+            border: 2px solid var(--primary);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+        }
+
+        header {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        main {
+            margin-top: 4rem;
+            padding: 2rem;
+        }
+
+        .hero {
+            max-width: 1200px;
+            margin: 2rem auto;
+            text-align: center;
+            padding: 4rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 2rem;
+            border: 4px solid var(--primary);
+        }
+
+        .sections {
+            max-width: 1200px;
+            margin: 4rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        .section-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        .section-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--bg);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            aspect-ratio: 16/9;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .section-card {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-card">
+            <h2>Welcome to My Portfolio!</h2>
+            <p>Please enter your name to continue:</p>
+            <input type="text" id="visitorName" placeholder="Your name">
+            <button class="btn" onclick="handleWelcome()">Enter</button>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <h2>George Nunoo Senior</h2>
+            </div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#expertise">Expertise</a>
+                <a href="#teaching">Teaching</a>
+                <a href="#projects">Projects</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <img 
+                src="lovepik-blue-line-technology-banner-background-image_400110774.jpg" 
+                alt="Hero Background" 
+                class="hero-image"
+            >
+            <img 
+                src="photo_5904387380167689730_y.jpg" 
+                alt="Profile Picture" 
+                class="profile-image"
+            >
+            <h1>Welcome, <span id="userName">Guest</span>!</h1>
+            <p>
+                Passionate about technology, I thrive on exploring the latest advancements and innovations that shape our world. 
+                With a strong foundation in both theoretical knowledge and practical application, I am dedicated to teaching 
+                others how to harness the power of technology in their personal and professional lives. My approach focuses on 
+                making complex concepts simple and accessible, breaking down barriers to understanding through engaging lessons 
+                and hands-on experiences. Whether it's through workshops, online courses, or one-on-one mentoring, I aim to 
+                inspire curiosity and foster a love for learning. I believe that technology should empower everyone, and I am 
+                committed to equipping my students with the skills they need to succeed in an ever-evolving digital landscape.
+            </p>
+        </section>
+    
+        <!-- Sections -->
+        <div class="sections">
+            <!-- About Me Section -->
+            <div class="section-card" id="about">
+                <img 
+                    src="about-me-design-template-f6c5a2329286c8a37d49dcf2f0a6329d_screen.jpg" 
+                    alt="About Me" 
+                    class="section-image"
+                >
+                <div class="section-content">
+                    <i class="fas fa-user icon"></i>
+                    <h2>About Me</h2>
+                    <p>
+                        With over 10 years of experience in IT and education, I combine technical expertise with a genuine 
+                        passion for teaching to help others grow in the tech industry.
+                    </p>
+                    <ul>
+                        <li>Coding</li>
+                        <li>System architecture</li>
+                        <li>Project management</li>
+                    </ul>
+                    <p>
+                        Over the years, I transitioned into education, discovering my true calling: empowering individuals to 
+                        navigate the complexities of technology.
+                    </p>
+                    <!-- Subsections -->
+                    <h3>Comprehensive Training Programs</h3>
+                    <p>
+                        I have developed and delivered training programs tailored to diverse audiences, from beginners to 
+                        advanced professionals. My teaching philosophy centers on:
+                    </p>
+                    <ul>
+                        <li>Fostering an interactive learning environment</li>
+                        <li>Encouraging students to ask questions</li>
+                        <li>Engaging deeply with the material</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <!-- Technical Expertise Section -->
+            <div class="section-card" id="expertise">
+                <img 
+                    src="stock-vector-design-concept-of-word-skill-website-banner-1192358545.jpg" 
+                    alt="Technical Skills" 
+                    class="section-image"
+                >
+                <div class="section-content">
+                    <i class="fas fa-laptop-code icon"></i>
+                    <h2>Technical Expertise</h2>
+                    <div class="skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Data Analysis</span>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Teaching Approach Section -->
+            <div class="section-card" id="teaching">
+                <img 
+                    src="landing-page-template-creative-teaching-method-illustration-concept-modern-flat-design-web-website-mobile-vector-137664386.webp" 
+                    alt="Teaching" 
+                    class="section-image"
+                >
+                <div class="section-content">
+                    <i class="fas fa-chalkboard-teacher icon"></i>
+                    <h2>Teaching Approach</h2>
+                    <p>
+                        I believe in practical, hands-on learning experiences. My teaching methodology focuses on real-world 
+                        applications and problem-solving skills.
+                    </p>
+                </div>
+            </div>
+    
+            <!-- Projects Section -->
+            <div class="section-card" id="projects">
+                <img 
+                    src="project-management.png" 
+                    alt="Projects" 
+                    class="section-image"
+                >
+                <div class="section-content">
+                    <i class="fas fa-project-diagram icon"></i>
+                    <h2>Featured Projects</h2>
+                    <p>
+                        From building web applications to creating comprehensive coding curricula, my projects reflect both 
+                        technical excellence and educational value.
+                    </p>
+                    <h3>Web Development Projects</h3>
+                    <ul>
+                        <li>User-friendly interfaces</li>
+                        <li>Robust backend systems</li>
+                    </ul>
+                    <h3>Educational Initiatives</h3>
+                    <ul>
+                        <li>Interactive exercises</li>
+                        <li>Collaborative group work</li>
+                        <li>Real-life case studies</li>
+                    </ul>
+                    <!-- Project Gallery -->
+                    <div class="gallery">
+                        <div class="gallery-item">
+                            <img src="HiRes-17.jpg" alt="Project 1" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="HiRes-17.jpg" alt="Project 2" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="HiRes-17.jpg" alt="Project 3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        function handleWelcome() {
+            const name = document.getElementById('visitorName').value.trim();
+            if (name) {
+                document.getElementById('userName').textContent = name;
+                document.getElementById('welcomeOverlay').style.display = 'none';
+            }
+        }
+
+        // Allow Enter key to submit name
+        document.getElementById('visitorName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleWelcome();
+            }
+        });
+
+        // Add smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = document.querySelector(this.getAttribute('href'));
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
